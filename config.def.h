@@ -40,7 +40,7 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 static const Layout layouts[] = {
 	/* symbol     arrange function */
  	{ "[]=",	tile },			/* Default: Master on left, slaves on right */
-	/* { "TTT",	bstack },		/1* Master on top, slaves on bottom *1/ */
+	{ "TTT",	bstack },		/* Master on top, slaves on bottom */
 
 	{ "[@]",	spiral },		/* Fibonacci spiral */
 	{ "[\\]",	dwindle },		/* Decreasing in size right and leftward */
