@@ -42,8 +42,8 @@ static const Layout layouts[] = {
  	{ "[]=",	tile },			/* Default: Master on left, slaves on right */
 	/* { "TTT",	bstack },		/1* Master on top, slaves on bottom *1/ */
 
-	/* { "[@]",	spiral },		/1* Fibonacci spiral *1/ */
-	/* { "[\\]",	dwindle },		/1* Decreasing in size right and leftward *1/ */
+	{ "[@]",	spiral },		/* Fibonacci spiral */
+	{ "[\\]",	dwindle },		/* Decreasing in size right and leftward */
 
 	{ "H[]",	deck },			/* Master on left, slaves in monocle-like mode on right */
  	{ "[M]",	monocle },		/* All windows on top of eachother */
