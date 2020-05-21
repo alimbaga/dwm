@@ -48,8 +48,8 @@ static const Layout layouts[] = {
 	{ "H[]",	deck },			/* Master on left, slaves in monocle-like mode on right */
  	{ "[M]",	monocle },		/* All windows on top of eachother */
 
-	/* { "|M|",	centeredmaster },		/1* Master in middle, slaves on sides *1/ */
-	/* { ">M>",	centeredfloatingmaster },	/1* Same but master floats *1/ */
+	{ "|M|",	centeredmaster },		/* Master in middle, slaves on sides */
+	{ ">M>",	centeredfloatingmaster },	/* Same but master floats */
 
 	{ "><>",	NULL },			/* no layout function means floating behavior */
 	{ NULL,		NULL },
