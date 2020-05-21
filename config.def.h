@@ -39,10 +39,22 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+ 	{ "[]=",	tile },			/* Default: Master on left, slaves on right */
+	/* { "TTT",	bstack },		/1* Master on top, slaves on bottom *1/ */
+
+	/* { "[@]",	spiral },		/1* Fibonacci spiral *1/ */
+	/* { "[\\]",	dwindle },		/1* Decreasing in size right and leftward *1/ */
+
+	{ "H[]",	deck },			/* Master on left, slaves in monocle-like mode on right */
+ 	{ "[M]",	monocle },		/* All windows on top of eachother */
+
+	/* { "|M|",	centeredmaster },		/1* Master in middle, slaves on sides *1/ */
+	/* { ">M>",	centeredfloatingmaster },	/1* Same but master floats *1/ */
+
+	{ "><>",	NULL },			/* no layout function means floating behavior */
+	{ NULL,		NULL },
 };
+
 
 /* key definitions */
 #define MODKEY Mod4Mask
@@ -70,8 +82,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+	{ MODKEY,			XK_o,		incnmaster,     {.i = +1 } },
+	{ MODKEY|ShiftMask,		XK_o,		incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_space,  zoom,           {0} },
@@ -79,8 +91,9 @@ static Key keys[] = {
 	{ MODKEY,             		XK_q,      killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_d,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_t,      setlayout,      {0} },
 	{ MODKEY,			XK_w,	   spawn,	   SHCMD("$BROWSER") },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
