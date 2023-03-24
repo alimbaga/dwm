@@ -1,0 +1,73 @@
+From a91cae905ec7fa6883952cf76e018a84f235b747 Mon Sep 17 00:00:00 2001
+From: Art Limbaga <limbaga@ualberta.ca>
+Date: Wed, 22 Mar 2023 21:29:23 -0600
+Subject: [PATCH 08/13] systemwide keybindings
+
+---
+ config.def.h | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+
+diff --git a/config.def.h b/config.def.h
+index 3191b18..093e920 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -1,5 +1,11 @@
+ /* See LICENSE file for copyright and license details. */
+ 
++#include <X11/XF86keysym.h>
++
++/* Constants */
++#define TERMINAL "st"
++#define BROWSER  "firefox"
++
+ /* appearance */
+ static const unsigned int borderpx  = 1;        /* border pixel of windows */
+ static const unsigned int snap      = 32;       /* snap pixel */
+@@ -94,6 +100,44 @@ static const Key keys[] = {
+ 	{ MODKEY|ShiftMask,             XK_g,      shifttag,       { .i = -1 } },
+ 	{ MODKEY,                       XK_semicolon,	shiftview,   { .i = +1 } },
+ 	{ MODKEY|ShiftMask,             XK_semicolon,	shifttag,    { .i = +1 } },
++	{ MODKEY,                       XK_minus,  spawn,          SHCMD("pamixer --allow-boost -d 5; kill -44 $(pidof dwmblocks)") },
++	{ MODKEY|ShiftMask,             XK_minus,  spawn,          SHCMD("pamixer --allow-boost -d 15; kill -44 $(pidof dwmblocks)") },
++	{ MODKEY,                       XK_equal,  spawn,          SHCMD("pamixer --allow-boost -i 5; kill -44 $(pidof dwmblocks)") },
++	{ MODKEY|ShiftMask,             XK_equal,  spawn,          SHCMD("pamixer --allow-boost -i 15; kill -44 $(pidof dwmblocks)") },
++	{ MODKEY|ShiftMask,             XK_q,      spawn,          SHCMD("sysact") },
++	{ MODKEY,                       XK_w,      spawn,          SHCMD("$BROWSER") },
++	{ MODKEY|ShiftMask,             XK_w,      spawn,          SHCMD("st -e sudo nmtui") },
++	{ MODKEY,		        XK_F1,	   spawn,	   {.v = (const char*[]){ "passmenu", NULL } } },
++	{ MODKEY,                       XK_F9,     spawn,          SHCMD("dmenumount") },
++	{ MODKEY,                       XK_F10,    spawn,          SHCMD("dmenuumount") },
++	{ 0,                            XK_Print,  spawn,          SHCMD("maim pic-full-$(date '+%y%m%d-%H%M-%S').png") },
++	{ ShiftMask,                    XK_Print,  spawn,          SHCMD("maimpick") },
++	{ 0, XF86XK_MonBrightnessUp,    spawn,    SHCMD("xbacklight -inc 15") },
++	{ 0, XF86XK_MonBrightnessDown,  spawn,    SHCMD("xbacklight -dec 15") },
++	{ 0, XF86XK_AudioMute,          spawn,    SHCMD("pamixer -t; kill -44 $(pidof dwmblocks)") },
++	{ 0, XF86XK_AudioRaiseVolume,   spawn,    SHCMD("pamixer --allow-boost -i 3; kill -44 $(pidof dwmblocks)") },
++	{ 0, XF86XK_AudioLowerVolume,   spawn,    SHCMD("pamixer --allow-boost -d 3; kill -44 $(pidof dwmblocks)") },
++	{ 0, XF86XK_AudioMicMute,	spawn,	  SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle") },
++	{ 0, XF86XK_ScreenSaver,	spawn,	  SHCMD("slock & xset dpms force off; mpc pause; pauseallmpv") },
++	{ 0, XF86XK_TouchpadToggle,	spawn,    SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
++	{ 0, XF86XK_AudioPrev,		spawn,    {.v = (const char*[]){ "mpc", "prev", NULL } } },
++	{ 0, XF86XK_AudioNext,		spawn,    {.v = (const char*[]){ "mpc",  "next", NULL } } },
++	{ 0, XF86XK_AudioPause,		spawn,    {.v = (const char*[]){ "mpc", "pause", NULL } } },
++	{ 0, XF86XK_AudioPlay,		spawn,    {.v = (const char*[]){ "mpc", "play", NULL } } },
++	{ 0, XF86XK_AudioStop,		spawn,    {.v = (const char*[]){ "mpc", "stop", NULL } } },
++	{ 0, XF86XK_AudioRewind,	spawn,    {.v = (const char*[]){ "mpc", "seek", "-10", NULL } } },
++	{ 0, XF86XK_AudioForward,	spawn,    {.v = (const char*[]){ "mpc", "seek", "+10", NULL } } },
++	{ 0, XF86XK_AudioMedia,		spawn,    {.v = (const char*[]){ TERMINAL, "-e", "ncmpcpp", NULL } } },
++	{ 0, XF86XK_PowerOff,		spawn,    {.v = (const char*[]){ "sysact", NULL } } },
++	{ 0, XF86XK_Calculator,		spawn,    {.v = (const char*[]){ TERMINAL, "-e", "bc", "-l", NULL } } },
++	{ 0, XF86XK_Sleep,		spawn,    {.v = (const char*[]){ "sudo", "-A", "zzz", NULL } } },
++	{ 0, XF86XK_WWW,		spawn,    {.v = (const char*[]){ BROWSER, NULL } } },
++	{ 0, XF86XK_DOS,		spawn,    {.v = termcmd } },
++	{ 0, XF86XK_TaskPane,	        spawn,    {.v = (const char*[]){ TERMINAL, "-e", "htop", NULL } } },
++	{ 0, XF86XK_MyComputer,		spawn,    {.v = (const char*[]){ TERMINAL, "-e",  "lfub",  "/", NULL } } },
++	{ 0, XF86XK_Launch1,		spawn,    {.v = (const char*[]){ "xset", "dpms", "force", "off", NULL } } },
++	{ 0, XF86XK_TouchpadOff,	spawn,    {.v = (const char*[]){ "synclient", "TouchpadOff=1", NULL } } },
++	{ 0, XF86XK_TouchpadOn,		spawn,    {.v = (const char*[]){ "synclient", "TouchpadOff=0", NULL } } },
+ 	{ MODKEY|ShiftMask,             XK_Left,   tagmon,         {.i = -1 } },
+ 	{ MODKEY|ShiftMask,             XK_Right,  tagmon,         {.i = +1 } },
+ 	TAGKEYS(                        XK_1,                      0)
+-- 
+2.40.0
+
